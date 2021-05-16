@@ -1,0 +1,40 @@
+ID: usersrv
+_schema-version: "3.1"
+version: 0.0.1
+
+modules:
+  - name: usersrv-srv
+    type: nodejs
+    path: usersrv
+    parameters:
+      memory: 128M
+      disk-quota: 512M
+    provides:
+      - name: srv_api
+        properties:
+          url: ${default-url}
+    requires:
+      - name: usersrv-uaa
+
+  - name: usersrv-approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      memory: 128M
+      disk-quota: 256M
+    requires:
+      - name: usersrv-uaa
+      - name: srv_api
+        group: destinations
+        properties:
+          name: srv
+          url: ~{url}
+          forwardAuthToken: true
+
+resources:
+  - name: usersrv-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa

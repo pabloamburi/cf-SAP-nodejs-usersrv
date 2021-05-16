@@ -1,0 +1,32 @@
+{
+  "xsappname": "usersrv",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.RolTemplate",
+      "description": "RolTemplate"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "RolTemplate_accounts",
+      "description": "RolTemplate Account",
+      "valueType": "string"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "RolTemplate",
+      "description": "RolTemplate",
+      "scope-references": [
+        "$XSAPPNAME.RolTemplate"
+      ],
+      "attribute-references": [
+        {
+          "name": "RolTemplate_accounts"
+        }
+      ]
+    }
+  ]
+}
